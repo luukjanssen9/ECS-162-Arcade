@@ -31,3 +31,11 @@
     font-size: 24px;
     margin: 20px;
 }
+
+.game-play-area h2 {
+    text-align: center;
+}
+
+#difficultySelection {
+    text-align: center;
+}
