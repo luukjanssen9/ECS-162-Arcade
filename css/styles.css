@@ -1,73 +1,78 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #282828; /* Darker shade for more focus on content */
+    color: #fff; /* White text for readability */
+}
+
 header {
-    background-color: #333;
+    background-color: #ff4757; /* Vibrant red for energetic feel */
     padding: 20px;
     text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .text {
-    color: #f0db4f;
-    font-family: 'Arial', sans-serif;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-    text-align: center;
+    color: white; /* Gold color maintained for branding */
+    text-shadow: 1px 1px 2px black;
 }
 
 header h1 {
     margin: 0;
-    font-size: 40px; 
+    font-size: 40px;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    
-}
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: white;
+    letter-spacing: 3px;
 }
 
 main {
     padding: 20px;
+    text-align: center;
 }
 
 .games {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-}
-
-.games h3 {
-    font-size: 30px;
-    margin: 5px;
+    justify-content: space-around; /* Better space management */
 }
 
 .game {
-    width: 35%;
-    background-color: #f0db4f;
-    margin: 20px;
+    width: 300px; /* Fixed width for uniformity */
+    background-color: #333;
+    margin: 15px;
     padding: 20px;
-    text-align: center;
     border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease; /* Smooth scaling on hover */
+}
+
+.game img:hover {
+    transform: scale(1.05); /* Slightly enlarges games on hover */
+}
+
+.game h3 {
+    color: #fff; /* Echoes the header styling */
 }
 
 .game img {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-}
-
-@media (max-width: 800px) {
-    .game {
-        width: 60%;
-    }
+    border-radius: 8px;
 }
 
 footer {
     background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
     position: fixed;
     bottom: 0;
     width: 100%;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 800px) {
+    .game {
+        width: 90%; /* More space for mobile responsiveness */
+    }
 }
