@@ -1,29 +1,58 @@
-.gameContainer {
+#gameContainer {
     display: flex;
+    flex-direction: column;
     justify-content: center;    /* horizontal alignment */
     align-items: center;        /* cross axis (vertical) alignment */
-    height: 100vh;              /*  takes up 100% of viewport */
+    margin-bottom: 60px;
+    
 }
 
 .board {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(70px, 1fr));    /* Each cell has at least 70 px, grows with container */
-    grid-template-rows: repeat(7, minmax(70px, 1fr));       /* Each cell has at least 70 px, grows with container */
-    gap: 0px 0px;                                           /* Space between cells */
-    width: 100vw;
+    display: flex;
+    aspect-ratio: 7/6;
+    height: 50vh;
+    max-width: 100vw;
+    justify-content: center;    /* horizontal alignment */
+    align-items: center;        /* cross axis (vertical) alignment */
+    margin: auto;               /* aspect ratio messes up alignment, this centers it again for some reason*/
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: blue;
+    cursor: pointer;
+    flex: 1;
 }
 
 .cell {
-    background-color: #fff;
-    cursor: pointer;
-    aspect-ratio: 1 / 1; /* Ensures that cells are square */
     display: flex;
-    align-items: center;
     justify-content: center;
-    height: 50px; /* Set a fixed height for better visual */
+
+    margin: 10% 10%;
+    width: 100%;
+    background-color: black;
+    aspect-ratio: 1 / 1; /* Ensures that cells are square */
+    border-radius: 50%;
     color: #444; /* Default text color */
 }
 
-.cell:hover {
-    background-color: blue; /* Hover effect for cells */
+
+.underBoard, h2, #difficultySelection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    /* horizontal alignment */
+    align-items: center;        /* cross axis (vertical) alignment */
+}
+
+.col:hover {
+    background-color: lightskyblue; /* Hover effect for cells */
+}
+
+@media (mid-aspect-ratio: 7 / 10) {
+    .board {
+        max-height: 80%;
+    }
 }

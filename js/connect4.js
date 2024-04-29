@@ -30,6 +30,27 @@ for (let row = 3; row < 6; row++) {
     }
 }
 
+//  make 7 columns of 6 cells 
+function createGameBoard() {
+    const gameBoard = document.getElementById('gameBoard');
+    let index = 0;
+    for (let i = 0; i < 7; i++) {
+        const col = document.createElement('button');
+        col.classList.add("col");
+        col.dataset.cellIndex = i;
+        for (let j = 0; j < 6; j++) {
+            const row = document.createElement("div");
+            row.classList.add("cell");
+            row.classList.add('row' + j);
+            row.dataset.cellIndex = index;
+            col.appendChild(row);
+            index++;
+        }
+        gameBoard.appendChild(col);
+    }
+}
+window.onload = createGameBoard;    //  called when page loads
+
 // Event listeners to handle game start and cell interaction
 document.addEventListener('DOMContentLoaded', () => {
     cells.forEach(cell => cell.addEventListener('click', handleCellClick));
