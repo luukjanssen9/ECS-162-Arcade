@@ -1,0 +1,29 @@
+.gameContainer {
+    display: flex;
+    justify-content: center;    /* horizontal alignment */
+    align-items: center;        /* cross axis (vertical) alignment */
+    height: 100vh;              /*  takes up 100% of viewport */
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(70px, 1fr));    /* Each cell has at least 70 px, grows with container */
+    grid-template-rows: repeat(7, minmax(70px, 1fr));       /* Each cell has at least 70 px, grows with container */
+    gap: 0px 0px;                                           /* Space between cells */
+    width: 100vw;
+}
+
+.cell {
+    background-color: #fff;
+    cursor: pointer;
+    aspect-ratio: 1 / 1; /* Ensures that cells are square */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px; /* Set a fixed height for better visual */
+    color: #444; /* Default text color */
+}
+
+.cell:hover {
+    background-color: blue; /* Hover effect for cells */
+}
