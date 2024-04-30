@@ -2,8 +2,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #282828; /* Darker shade for more focus on content */
-    color: #fff; /* White text for readability */
+    background-color: white; /* Darker shade for more focus on content */
 }
 
 header {

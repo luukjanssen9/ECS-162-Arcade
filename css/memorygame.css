@@ -1,0 +1,12 @@
+.image-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Creates 4 columns */
+    gap: 0px; /* Space between images */
+    max-width: 600px; /* Maximum width of the grid */
+    margin: 0 auto; /* Center the grid horizontally */
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+}
