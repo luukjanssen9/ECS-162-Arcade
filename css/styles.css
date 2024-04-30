@@ -5,6 +5,12 @@ body {
     background-color: white;
 }
 
+#back-button {
+    float: left;
+    width: 86px;
+    height: 86px;
+}
+
 header {
     background-color: #ff4757; /* Vibrant red for energetic feel */
     padding: 20px;
@@ -35,7 +41,6 @@ main {
     flex-wrap: wrap;
     justify-content: space-between; /* Adjusts space management */
     padding: 0 10px; /* Removes any padding that might be adding space */
-    background-color: #f6f6f6;
 }
 
 .game {
@@ -88,7 +93,6 @@ footer {
     background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 10px;
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -100,6 +104,7 @@ footer {
     overflow: hidden;
     position: relative;
     mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    z-index: 2; /* Ensure banner is above the footer */
 }
 
 #marquee {

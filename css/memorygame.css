@@ -1,3 +1,11 @@
+header h1 {
+    text-align: center;
+    margin-right: 75px;
+}
+
+header img {
+    margin-right: auto;
+}
 .image-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* Creates 4 columns */
@@ -9,4 +17,12 @@
 .image-container img {
     width: 100%;
     height: 100%;
+}
+
+.text-container {
+    padding-bottom: 20px;
+}
+
+.game-text {
+    font-size: 25px;
 }
