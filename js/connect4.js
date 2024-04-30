@@ -1,7 +1,11 @@
-const cells = document.querySelectorAll('.cell');
-let currentPlayer = '1'; // Player X is always the human
+window.onload = createGameBoard();    //  called when page loads
+
+//const cells = document.querySelectorAll('.cell');
+const cols = document.querySelectorAll('.col');
+let currentPlayer = '1'; // Player 1 is always the human
 let gameActive = true;
 let gameState = new Array(42).fill("");
+let stacks = new Array(7).fill(0);
 
 //  Setting winning conditions
 let winningConditions = [];
@@ -38,22 +42,21 @@ function createGameBoard() {
         const col = document.createElement('button');
         col.classList.add("col");
         col.dataset.cellIndex = i;
+        col.id = "col" + i;
         for (let j = 0; j < 6; j++) {
             const row = document.createElement("div");
             row.classList.add("cell");
-            row.classList.add('row' + j);
-            row.dataset.cellIndex = index;
+            row.id = index;
             col.appendChild(row);
             index++;
         }
         gameBoard.appendChild(col);
     }
 }
-window.onload = createGameBoard;    //  called when page loads
 
 // Event listeners to handle game start and cell interaction
 document.addEventListener('DOMContentLoaded', () => {
-    cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+    cols.forEach(col => col.addEventListener('click', handleColClick));
     document.getElementById('restartButton').addEventListener('click', restartGame);
 });
 
@@ -61,11 +64,12 @@ function restartGame() {
     gameActive = true;
     currentPlayer = '1';
     gameState = new Array(42).fill("");
+    stacks = new Array(7).fill(0);
     document.getElementById('resultDisplay').innerText = "Player 1's turn";
-    cells.forEach(cell => {
-        cell.innerHTML = "";
+    for (let i = 0; i < 42; i++) {
+        cell = document.getElementById(i);
         cell.className = 'cell'; // Reset classes
-    });
+    };
 }
 
 function getDifficulty() {
@@ -77,29 +81,50 @@ function getDifficulty() {
     }
 }
 
-function handleCellClick(clickedCellEvent) {
-    //  Get index of clicked cell
-    const clickedCell = clickedCellEvent.target;
-    const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'));
+function handleColClick(clickedColEvent) {
+    //  Get index of clicked column
+    let clickedCol = clickedColEvent.target;
+    if (clickedCol.classList.contains('cell')) {
+        clickedCol = clickedCol.parentElement
+    }
+    const clickedColIndex = parseInt(clickedCol.id.split('col')[1]);
 
     // If cell is valid and player 1's turn
-    if (gameState[clickedCellIndex] !== "" || !gameActive || currentPlayer === 'O') {
+    if (stacks[clickedColIndex] == 7 || !gameActive || currentPlayer === '2') {
         return;
     }
 
-    // we respond to a click by handling the cell that has been played
+    // we respond to a click by handling the col that has been played
     // and then updating the overall game status
-    handleCellPlayed(clickedCell, clickedCellIndex);
+    handleColPlayed(clickedColIndex);
     updateGameStatus();
 }
 
-function handleCellPlayed(clickedCell, clickedCellIndex) {
+function handleColPlayed(clickedColIndex) {
     //  update gamestate array
-    gameState[clickedCellIndex] = currentPlayer;
+    //gameState[clickedColIndex] = currentPlayer;
+    let lowestCell = getLowestCell(clickedColIndex);
+    if (typeof lowestCell === 'undefined') {
+        return;
+    }
+    console.log("updated board");
     //  update DOM 
-    clickedCell.innerHTML = currentPlayer;
+    //clickedCol.innerHTML = currentPlayer;
     //  update class of cell
-    clickedCell.classList.add(currentPlayer === '1' ? 'red' : 'blue');
+    lowestCell.classList.add(currentPlayer === '1' ? 'red' : 'yellow');
+    console.log("adding color to" + lowestCell.id);
+}
+
+//  TODO FIX
+function getLowestCell(col) {
+    row = stacks[col];
+    console.log('row', row, 'cell ', 41 - (7*row + col));
+    if (row == 7) {
+        return;
+    }
+    stacks[col]++;
+    gameState[41 - (7*row + col)] = currentPlayer;
+    return document.getElementById(41 - (7*row + col));
 }
 
 function updateGameStatus() {
@@ -160,16 +185,16 @@ function checkWinner() {
 // The simplest computer move, just pick a random cell
 //
 function randomComputerMove() {
-    let availableCells = [];
-    gameState.forEach((cell, index) => {
-        if (cell === "") {
-            availableCells.push(index);
+    let availableCols = [];
+    stacks.forEach((col, index) => {
+        if (col != 7) {
+            availableCols.push(index);
         }
     });
 
-    if (availableCells.length > 0) {
-        const move = availableCells[Math.floor(Math.random() * availableCells.length)];
-        handleCellPlayed(cells[move], move);  // Assume this function places the mark and updates the game state
+    if (availableCols.length > 0) {
+        const move = availableCols[Math.floor(Math.random() * availableCols.length)];
+        handleColPlayed(move);  // Assume this function places the mark and updates the game state
         updateGameStatus();  // Assume this function checks for a win/draw and updates the UI
     }
 }

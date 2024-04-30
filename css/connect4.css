@@ -3,8 +3,7 @@
     flex-direction: column;
     justify-content: center;    /* horizontal alignment */
     align-items: center;        /* cross axis (vertical) alignment */
-    margin-bottom: 60px;
-    
+    margin-bottom: 10%;
 }
 
 .board {
@@ -15,6 +14,8 @@
     justify-content: center;    /* horizontal alignment */
     align-items: center;        /* cross axis (vertical) alignment */
     margin: auto;               /* aspect ratio messes up alignment, this centers it again for some reason*/
+    margin-bottom: 3%;
+    margin-top: 3%;
 }
 
 .col {
@@ -30,10 +31,9 @@
 .cell {
     display: flex;
     justify-content: center;
-
     margin: 10% 10%;
     width: 100%;
-    background-color: black;
+    background-color:#1a1a1a; 
     aspect-ratio: 1 / 1; /* Ensures that cells are square */
     border-radius: 50%;
     color: #444; /* Default text color */
@@ -47,12 +47,22 @@
     align-items: center;        /* cross axis (vertical) alignment */
 }
 
+#col0 {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+#col6 {
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
 .col:hover {
     background-color: lightskyblue; /* Hover effect for cells */
 }
 
-@media (mid-aspect-ratio: 7 / 10) {
-    .board {
-        max-height: 80%;
-    }
+.cell.red {
+    background-color: red;
+}
+.cell.yellow {
+    background-color: yellow;
 }
