@@ -1,8 +1,8 @@
 body {
     font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: white; /* Darker shade for more focus on content */
+    margin: 0; /* No margin for the body */
+    padding: 0; /* No padding for the body */
+    background-color: white;
 }
 
 header {
@@ -25,24 +25,49 @@ header h1 {
 }
 
 main {
-    padding: 20px;
+    padding: 0; /* No padding for main */
     text-align: center;
+    width: 100%; /* Ensure main takes full width */
 }
 
 .games {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around; /* Better space management */
+    justify-content: space-between; /* Adjusts space management */
+    padding: 0 10px; /* Removes any padding that might be adding space */
+    background-color: #f6f6f6;
 }
 
 .game {
-    width: 300px; /* Fixed width for uniformity */
-    background-color: #333;
-    margin: 15px;
+    width: 200px; /* Fixed width for uniformity */
+    background-color: #f6f6f6;
+    margin: 15px 0; /* Only top and bottom margins */
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease; /* Smooth scaling on hover */
+}
+
+@media (max-width: 800px) {
+    .games {
+        justify-content: flex-start;
+    }
+    .game {
+        width: 100%;
+        margin: 15px 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .game h3 {
+        margin-left: 10px;
+    }
+    .game img {
+        max-width: 100px; /* Adjust width of the image */
+        max-height: 100px; /* Set a fixed height */
+        margin-right: 10px;
+        object-fit: cover; /* Maintain aspect ratio and fill the container */
+    }
 }
 
 .game img:hover {
@@ -50,7 +75,7 @@ main {
 }
 
 .game h3 {
-    color: #fff; /* Echoes the header styling */
+    color: black; /* Echoes the header styling */
 }
 
 .game img {
@@ -68,12 +93,6 @@ footer {
     bottom: 0;
     width: 100%;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.3);
-}
-
-@media (max-width: 800px) {
-    .game {
-        width: 90%; /* More space for mobile responsiveness */
-    }
 }
 
 .banner {
