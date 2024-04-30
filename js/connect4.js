@@ -48,8 +48,9 @@ function createGameBoard() {
             row.classList.add("cell");
             row.id = index;
             col.appendChild(row);
-            index++;
+            index += 7;
         }
+        index -= 41;
         gameBoard.appendChild(col);
     }
 }
@@ -90,13 +91,16 @@ function handleColClick(clickedColEvent) {
     const clickedColIndex = parseInt(clickedCol.id.split('col')[1]);
 
     // If cell is valid and player 1's turn
-    if (stacks[clickedColIndex] == 7 || !gameActive || currentPlayer === '2') {
+    if (stacks[clickedColIndex] == 6 || !gameActive || currentPlayer === '2') {
         return;
     }
 
     // we respond to a click by handling the col that has been played
     // and then updating the overall game status
-    handleColPlayed(clickedColIndex);
+    let played = handleColPlayed(clickedColIndex);
+    if (played == -1) {
+        return;
+    } 
     updateGameStatus();
 }
 
@@ -104,8 +108,8 @@ function handleColPlayed(clickedColIndex) {
     //  update gamestate array
     //gameState[clickedColIndex] = currentPlayer;
     let lowestCell = getLowestCell(clickedColIndex);
-    if (typeof lowestCell === 'undefined') {
-        return;
+    if (lowestCell == null) {
+        return -1;
     }
     console.log("updated board");
     //  update DOM 
@@ -113,18 +117,18 @@ function handleColPlayed(clickedColIndex) {
     //  update class of cell
     lowestCell.classList.add(currentPlayer === '1' ? 'red' : 'yellow');
     console.log("adding color to" + lowestCell.id);
+    return 1;
 }
 
-//  TODO FIX
 function getLowestCell(col) {
     row = stacks[col];
-    console.log('row', row, 'cell ', 41 - (7*row + col));
-    if (row == 7) {
-        return;
+    console.log('row', row, 'cell ', 41 - (7*row + (6 - col)));
+    if (row == 6) {
+        return null;
     }
     stacks[col]++;
-    gameState[41 - (7*row + col)] = currentPlayer;
-    return document.getElementById(41 - (7*row + col));
+    gameState[41 - (7*row + (6 - col))] = currentPlayer;
+    return document.getElementById(41 - (7*row + (6 -col)));
 }
 
 function updateGameStatus() {
@@ -167,8 +171,8 @@ function checkWinner() {
     // in a winning conndition, then that player has won the game
     //
     for (let condition of winningConditions) {
-        const [a, b, c] = condition.map(index => gameState[index]);
-        if (a && a === b && b === c) {
+        const [a, b, c, d] = condition.map(index => gameState[index]);
+        if (a && a === b && b === c && c === d) {
             return a;  // '1' or '2'
         }
     }
@@ -187,7 +191,7 @@ function checkWinner() {
 function randomComputerMove() {
     let availableCols = [];
     stacks.forEach((col, index) => {
-        if (col != 7) {
+        if (col != 6) {
             availableCols.push(index);
         }
     });
