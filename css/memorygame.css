@@ -26,3 +26,7 @@ header img {
 .game-text {
     font-size: 25px;
 }
+
+#restart-btn {
+    margin-bottom: 100px;
+}
