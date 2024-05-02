@@ -9,6 +9,7 @@ let timeOut = 0;
 let restartButton = document.getElementById("restart-btn");
 restartButton.addEventListener("click", Restart);
 
+// initialize the board
 function Init() {
     // add event listeners to call turnCard when images are clicked
     for(let i = 0; i < 12; i++) {
@@ -36,8 +37,7 @@ function Init() {
     document.getElementById("num-match").innerText = "Number of matches: " + numberMatches;
 }
 
-
-
+//turn over card when clicked
 function turnCard() {
     
     if (timeOut === 1) {
@@ -97,16 +97,17 @@ function turnCard() {
     }
 }
 
+// display game win
 function gameFin() {
     setTimeout(() => {
         for (let i = 0; i < 12; i++) {
             imgEl[i].setAttribute("src", "./images/youwin.gif");
-            // 
         }
     }, 3000)
     
 }
 
+// reset the game
 function Restart() {
     // reset the images
     for (let i = 0; i < 12; i++) {

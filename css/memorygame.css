@@ -35,6 +35,6 @@ header img {
     font-size: 20px;
 }
 
-#restart-btn:hover {
-    
+#easy, #hard, #restart-btn:hover {
+    cursor: pointer;
 }
