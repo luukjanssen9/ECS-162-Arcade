@@ -91,7 +91,7 @@ function handleColClick(clickedColEvent) {
     const clickedColIndex = parseInt(clickedCol.id.split('col')[1]);
 
     // If cell is valid and player 1's turn
-    if (stacks[clickedColIndex] == 6 || !gameActive || currentPlayer === '2') {
+    if (stacks[clickedColIndex] == 6 || !gameActive || (currentPlayer === '2' && !getDifficulty() === "PvP")) {
         return;
     }
 
@@ -112,8 +112,6 @@ function handleColPlayed(clickedColIndex) {
         return -1;
     }
     console.log("updated board");
-    //  update DOM 
-    //clickedCol.innerHTML = currentPlayer;
     //  update class of cell
     lowestCell.classList.add(currentPlayer === '1' ? 'red' : 'yellow');
     console.log("adding color to" + lowestCell.id);
@@ -158,8 +156,8 @@ function togglePlayer() {
         let difficulty = getDifficulty();
         if(difficulty === "easy")
             randomComputerMove();
-        else
-            console.log("implement difficulty");
+        else if (difficulty === "hard")
+            hardComputerMove();
     }
 }
 
