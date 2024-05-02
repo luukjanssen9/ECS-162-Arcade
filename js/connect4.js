@@ -111,16 +111,13 @@ function handleColPlayed(clickedColIndex) {
     if (lowestCell == null) {
         return -1;
     }
-    console.log("updated board");
     //  update class of cell
     lowestCell.classList.add(currentPlayer === '1' ? 'red' : 'yellow');
-    console.log("adding color to" + lowestCell.id);
     return 1;
 }
 
 function getLowestCell(col) {
     row = stacks[col];
-    console.log('row', row, 'cell ', 41 - (7*row + (6 - col)));
     if (row == 6) {
         return null;
     }
@@ -157,7 +154,7 @@ function togglePlayer() {
         if(difficulty === "easy")
             randomComputerMove();
         else if (difficulty === "hard")
-            hardComputerMove();
+            hardComputerMove(5);
     }
 }
 
@@ -198,5 +195,71 @@ function randomComputerMove() {
         const move = availableCols[Math.floor(Math.random() * availableCols.length)];
         handleColPlayed(move);  // Assume this function places the mark and updates the game state
         updateGameStatus();  // Assume this function checks for a win/draw and updates the UI
+    }
+}
+
+function hardComputerMove(maxDepth) {
+    console.log("here");
+    let bestScore = -Infinity;
+    let move = null;
+
+    for (let i = 0; i < stacks.length; i++) {
+        if (stacks[i] !== 6) {
+            gameState[41 - (7*stacks[i] + (6 - i))] = '2';
+            stacks[i]++;
+            //  gamestate, current depth, isMaximisizng, maxDepth
+            let score = minimax(gameState, 0, false, maxDepth);
+            stacks[i]--;
+            gameState[41 - (7*stacks[i] + (6 - i))] = "";
+            if (score > bestScore) {
+                bestScore = score;
+                move = i;
+            }
+        }
+    }
+
+    if (move != null) {
+        handleColPlayed(move);
+        updateGameStatus();
+    }
+
+    function minimax(board, depth, isMaximizing, maxDepth) {
+        if (depth === maxDepth) return 0;
+
+        let winner = checkWinner();
+        if (winner !== null) {
+            return winner === '2' ? 10 : winner === '1' ? -10 : 0;
+        }
+
+        if (isMaximizing) {
+            console.log("is maximizing");
+            let bestScore = -Infinity;
+            for (let i = 0; i < stacks.length; i++) {
+                if (stacks[i] !== 6) {
+                    board[41 - (7*stacks[i] + (6 - i))] = '2';
+                    stacks[i]++;
+                    let score = minimax(board, depth + 1, false, maxDepth);
+                    stacks[i]--;
+                    board[41 - (7*stacks[i] + (6 - i))] = "";
+                    bestScore = Math.max(score, bestScore);
+                }
+            }
+            return bestScore;
+        } else {
+            let bestScore = Infinity;
+            console.log("is minimizing");
+
+            for (let i = 0; i < stacks.length; i++) {
+                if (stacks[i] !== 6) {
+                    board[41 - (7*stacks[i] + (6 - i))] = '1';
+                    stacks[i]++;
+                    let score = minimax(board, depth + 1, true, maxDepth);
+                    stacks[i]--;
+                    board[41 - (7*stacks[i] + (6 - i))] = "";
+                    bestScore = Math.min(score, bestScore);
+                }
+            }
+            return bestScore;
+        }
     }
 }
