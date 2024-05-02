@@ -30,6 +30,8 @@
 #resultDisplay{
     font-size: 24px;
     margin: 20px;
+    margin-bottom: 100px;
+    text-align: center;
 }
 
 .game-play-area h2 {

@@ -16,6 +16,9 @@ function Init() {
         imgEl[i].addEventListener("click", turnCard);
     }
 
+    //reset memoryCards on reset
+    memoryCards.length = 0;
+
     // add images to array of memory cards
     for(let i = 10; i < 16; i++) {
         let card = {};
@@ -28,6 +31,9 @@ function Init() {
     // randomly sort array
     memoryCards.sort(() => 0.5 - Math.random());
 
+    // load 0 initially
+    document.getElementById("num-tries").innerText = "Number of tries: " + numberTries;
+    document.getElementById("num-match").innerText = "Number of matches: " + numberMatches;
 }
 
 
@@ -59,6 +65,7 @@ function turnCard() {
         // if card is match, flip card and remove event listeners for both cards
         if (clickedCard === previousCard) {
             this.setAttribute("src", "./images/correct-right.gif");
+            // https://tenor.com/view/correct-right-your-correct-correction-you-are-right-gif-25551295
             previousCardObj.setAttribute("src", "./images/correct-right.gif");
             timeOut = 1;
             setTimeout(() => {
@@ -94,13 +101,22 @@ function gameFin() {
     setTimeout(() => {
         for (let i = 0; i < 12; i++) {
             imgEl[i].setAttribute("src", "./images/youwin.gif");
+            // 
         }
     }, 3000)
     
 }
 
 function Restart() {
-    location.reload();
+    // reset the images
+    for (let i = 0; i < 12; i++) {
+        imgEl[i].setAttribute("src", "./images/number_" + i + ".png");
+    }
+    numberMatches = 0;
+    numberTries = 0;
+    turnedOver = 0;
+    Init();
 }
+
 
 Init();

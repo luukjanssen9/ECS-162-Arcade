@@ -41,6 +41,7 @@ main {
     flex-wrap: wrap;
     justify-content: space-between; /* Adjusts space management */
     padding: 0 10px; /* Removes any padding that might be adding space */
+    margin-bottom: 50px;
 }
 
 .game {
