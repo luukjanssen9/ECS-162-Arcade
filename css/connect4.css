@@ -47,6 +47,10 @@
     align-items: center;        /* cross axis (vertical) alignment */
 }
 
+#difficultySelection {
+    flex-direction: row;
+}
+
 #col0 {
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
