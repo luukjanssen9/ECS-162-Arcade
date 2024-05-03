@@ -1,5 +1,6 @@
 // originally created by Ben Zarras 2015
 // modified by Luuk Janssen 2024
+// see: https://github.com/jpbida/math-game
 // Added a counter that automatically calculates the average time
 // after 10 correct answers (vs. having to manually press the STOP button)
 // cleaned up the function calls; added comments in the code
