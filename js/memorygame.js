@@ -1,3 +1,4 @@
+// initialize variables
 const imgEl = [];
 let memoryCards = [];
 let turnedOver = 0;
@@ -51,6 +52,7 @@ function Init() {
     document.getElementById("num-match").innerText = "Number of matches: " + numberMatches;
 }
 
+// get difficulty level
 function getDifficulty() {
     let radios = document.getElementsByName('difficulty');
     for (let i = 0; i < radios.length; i++) {
@@ -61,12 +63,10 @@ function getDifficulty() {
             difficulty = 20;
         }
     }
-    console.log(difficulty);
 }
 
 //turn over card when clicked
 function turnCard() {
-    
     if (timeOut === 1) {
         return;
     }
@@ -129,6 +129,7 @@ function gameFin() {
     setTimeout(() => {
         for (let i = 0; i < difficulty; i++) {
             imgEl[i].setAttribute("src", "./images/youwin.gif");
+            // https://tenor.com/view/you-win-you-did-it-you-got-it-gif-15952369
         }
     }, 3000)
     
@@ -146,5 +147,5 @@ function Restart() {
     Init();
 }
 
-
+// initialize the game
 Init();

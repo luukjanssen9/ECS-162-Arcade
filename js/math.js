@@ -111,6 +111,7 @@ var getAnswer = function() {
 	inputField.value = "";
 };
 
+// This function returns a category based on the mean time
 var getCategory = function(mean) {
 	var c;
 	if (mean < 2) {

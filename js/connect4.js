@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('restartButton').addEventListener('click', restartGame);
 });
 
+//  restart the game
 function restartGame() {
     gameActive = true;
     currentPlayer = '1';
@@ -73,6 +74,7 @@ function restartGame() {
     };
 }
 
+//  get the difficulty level
 function getDifficulty() {
     let radios = document.getElementsByName('difficulty');
     for (let i = 0; i < radios.length; i++) {
@@ -82,6 +84,7 @@ function getDifficulty() {
     }
 }
 
+// handle the column click
 function handleColClick(clickedColEvent) {
     //  Get index of clicked column
     let clickedCol = clickedColEvent.target;
@@ -116,6 +119,7 @@ function handleColPlayed(clickedColIndex) {
     return 1;
 }
 
+// get the lowest cell in the column
 function getLowestCell(col) {
     row = stacks[col];
     if (row == 6) {
@@ -126,6 +130,7 @@ function getLowestCell(col) {
     return document.getElementById(41 - (7*row + (6 -col)));
 }
 
+// update the game status
 function updateGameStatus() {
     const result = checkWinner();
     if (result) {
@@ -142,13 +147,11 @@ function updateGameStatus() {
 
 
 // select the other player, human player starts
-//
 function togglePlayer() {
     currentPlayer = currentPlayer === '1' ? '2' : '1';
     document.getElementById('resultDisplay').innerText = "Player " + currentPlayer + "'s turn";
 
     // note that you can change difficulty mid game!
-    //
     if (currentPlayer === '2' && gameActive) {
         let difficulty = getDifficulty();
         if(difficulty === "easy")
@@ -159,12 +162,10 @@ function togglePlayer() {
 }
 
 // checking to see if there is currently a winner
-//
 function checkWinner() {
 
     // if the board is such that the same board state exists
     // in a winning conndition, then that player has won the game
-    //
     for (let condition of winningConditions) {
         const [a, b, c, d] = condition.map(index => gameState[index]);
         if (a && a === b && b === c && c === d) {
@@ -174,7 +175,6 @@ function checkWinner() {
 
     // if there are no longer any cells with no X or O
     // then there are no more empty cells to play
-    //
     if (!gameState.includes("")) {
         return 'tie'; // Game is a draw
     }
@@ -182,7 +182,6 @@ function checkWinner() {
 }
 
 // The simplest computer move, just pick a random cell
-//
 function randomComputerMove() {
     let availableCols = [];
     stacks.forEach((col, index) => {
@@ -198,6 +197,7 @@ function randomComputerMove() {
     }
 }
 
+// The minimax algorithm for the computer move
 function hardComputerMove(maxDepth) {
     console.log("here");
     let bestScore = -Infinity;
