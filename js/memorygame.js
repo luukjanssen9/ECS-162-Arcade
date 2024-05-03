@@ -6,13 +6,27 @@ let previousCardObj = {};
 let numberMatches = 0;
 let numberTries = 0;
 let timeOut = 0;
+let difficulty;
 let restartButton = document.getElementById("restart-btn");
 restartButton.addEventListener("click", Restart);
 
 // initialize the board
 function Init() {
+    // clear the board
+    let myNode = document.getElementById("memory-game");
+    myNode.innerHTML = '';
+    // get difficulty level
+    getDifficulty();
+
+    for (let i = 0; i < difficulty; i++) {
+        let img = document.createElement("img");
+        img.setAttribute("src", "./images/number_" + i + ".png");
+        img.setAttribute("id", i.toString());
+        img.setAttribute("alt", "number " + i);
+        document.getElementById("memory-game").appendChild(img);
+    }
     // add event listeners to call turnCard when images are clicked
-    for(let i = 0; i < 12; i++) {
+    for(let i = 0; i < difficulty; i++) {
         imgEl[i] = document.getElementById(i.toString());
         imgEl[i].addEventListener("click", turnCard);
     }
@@ -21,7 +35,7 @@ function Init() {
     memoryCards.length = 0;
 
     // add images to array of memory cards
-    for(let i = 10; i < 16; i++) {
+    for(let i = 1; i < (difficulty/2+1); i++) {
         let card = {};
         card.img = "./images/" + i + ".png";
         card.id = i;
@@ -35,6 +49,19 @@ function Init() {
     // load 0 initially
     document.getElementById("num-tries").innerText = "Number of tries: " + numberTries;
     document.getElementById("num-match").innerText = "Number of matches: " + numberMatches;
+}
+
+function getDifficulty() {
+    let radios = document.getElementsByName('difficulty');
+    for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked && radios[i].value === "easy") {
+            difficulty = 12; 
+        }
+        if (radios[i].checked && radios[i].value === "hard") {
+            difficulty = 20;
+        }
+    }
+    console.log(difficulty);
 }
 
 //turn over card when clicked
@@ -92,7 +119,7 @@ function turnCard() {
         }
         turnedOver = 0;
     }
-    if (numberMatches === 6) {
+    if (numberMatches === difficulty/2) {
         gameFin();
     }
 }
@@ -100,7 +127,7 @@ function turnCard() {
 // display game win
 function gameFin() {
     setTimeout(() => {
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < difficulty; i++) {
             imgEl[i].setAttribute("src", "./images/youwin.gif");
         }
     }, 3000)
@@ -110,7 +137,7 @@ function gameFin() {
 // reset the game
 function Restart() {
     // reset the images
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < difficulty; i++) {
         imgEl[i].setAttribute("src", "./images/number_" + i + ".png");
     }
     numberMatches = 0;
