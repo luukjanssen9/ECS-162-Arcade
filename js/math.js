@@ -1,7 +1,18 @@
-// Made by Ben Zarras 2015
+// originally created by Ben Zarras 2015
+// modified by Luuk Janssen 2024
+// Added a counter that automatically calculates the average time
+// after 10 correct answers (vs. having to manually press the STOP button)
+// cleaned up the function calls; added comments in the code
+
 /***** ELEMENTS *****/
-var startButton = document.getElementById("start");
-var stopButton = document.getElementById("stop");
+let startButton = document.getElementById("start");
+startButton.addEventListener("click", Start);
+
+let stopButton = document.getElementById("stop");
+stopButton.addEventListener("click", Stop);
+
+let togoEL = document.getElementById("triestogo");
+
 var inputField = document.getElementById("in");
 var form = document.querySelector("form");
 var p = document.getElementById("p");
@@ -16,6 +27,7 @@ var max = 20;
 var num1;
 var num2;
 var answer;
+var triesToGo = 10;
 
 var startTime;
 var endTime;
@@ -27,9 +39,10 @@ var times = [];
 inputField.className = "hide";
 stopButton.className = "hide";
 
-/***** EVENTS *****/
-startButton.onclick = function() {
+// this function gets called when start button is clicked or when stop is clicked
+function Start() {
 	// initializing the count
+	togoEL.innerHTML = triesToGo + " more to go";
 	count = 0;
 	times = [];
 	results.innerHTML = ""; // clear results
@@ -41,15 +54,21 @@ startButton.onclick = function() {
 	inputField.focus();
 };
 
+// this is called when the answer is put in the form and enter is pressed
 form.onsubmit = function(e) {
 	// need to prevent the default form submission wich reloads the page
 	e.preventDefault();
 	getAnswer();
 };
 
-stopButton.onclick = function() {
+// after ten additions, the stop function is called and the average is calculated
+// or stop is called at click on STOP
+function Stop() {
 	var resultString;
 	var categoryString;
+	// set the number of tries back to 10 for the next round
+	triesToGo = 10;
+	togoEL.innerHTML = " ";
 	if (times.length > 0) {
 		// getting mean time
 		var total = 0;
@@ -77,8 +96,8 @@ stopButton.onclick = function() {
 	category.innerHTML = categoryString;
 };
 
-/***** FUNCTIONS ******/
-var refreshNums = function() {
+// creates 2 random numbers to be used for the addition
+function refreshNums() {
 	// Getting some random numbers
 	num1 = Math.floor((Math.random() * max) + 1);
 	num2 = Math.floor((Math.random() * max) + 1);
@@ -90,10 +109,9 @@ var refreshNums = function() {
 	startTime = new Date();
 };
 
-/*
-* This is called in the onsubmit event
-*/
-var getAnswer = function() {
+// This is called when an answer to the addition is entered
+// checked whether the addition answer is correct
+function getAnswer() {
 	var correct = num1 + num2;
 	// Getting the users attempt
 	answer = parseInt(inputField.value);
@@ -105,6 +123,13 @@ var getAnswer = function() {
 		// the answer was correct, so no need for "Try Again"
 		response.innerHTML = "";
 		refreshNums();
+		triesToGo = triesToGo - 1;
+		togoEL.innerHTML = triesToGo + " more to go";
+		if (triesToGo == 0) {
+			triesToGo = 10;
+			togoEL.innerHTML = " ";
+			Stop();
+			}
 	} else {
 		response.innerHTML = "Try Again";
 	}
@@ -112,8 +137,8 @@ var getAnswer = function() {
 	inputField.value = "";
 };
 
-// This function returns a category based on the mean time
-var getCategory = function(mean) {
+// make some fun categories to report out
+function getCategory(mean) {
 	var c;
 	if (mean < 2) {
 		c = "Human Computer";
