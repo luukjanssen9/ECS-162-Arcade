@@ -1,3 +1,4 @@
+// Made by Luuk Janssen 2024
 // initialize variables
 const imgEl = [];
 let memoryCards = [];
@@ -13,12 +14,13 @@ restartButton.addEventListener("click", Restart);
 
 // initialize the board
 function Init() {
-    // clear the board
+    // clear the board on startup and reset
     let myNode = document.getElementById("memory-game");
     myNode.innerHTML = '';
     // get difficulty level
     getDifficulty();
 
+    // display the images on the board based on difficulty level
     for (let i = 0; i < difficulty; i++) {
         let img = document.createElement("img");
         img.setAttribute("src", "./images/number_" + i + ".png");
@@ -26,6 +28,7 @@ function Init() {
         img.setAttribute("alt", "number " + i);
         document.getElementById("memory-game").appendChild(img);
     }
+
     // add event listeners to call turnCard when images are clicked
     for(let i = 0; i < difficulty; i++) {
         imgEl[i] = document.getElementById(i.toString());
@@ -52,14 +55,16 @@ function Init() {
     document.getElementById("num-match").innerText = "Number of matches: " + numberMatches;
 }
 
-// get difficulty level
+// get difficulty level from radio button and save into global variable
 function getDifficulty() {
     let radios = document.getElementsByName('difficulty');
     for (let i = 0; i < radios.length; i++) {
         if (radios[i].checked && radios[i].value === "easy") {
+            // 12 cards for easy difficulty
             difficulty = 12; 
         }
         if (radios[i].checked && radios[i].value === "hard") {
+            // 20 cards for hard difficulty
             difficulty = 20;
         }
     }
@@ -67,10 +72,10 @@ function getDifficulty() {
 
 //turn over card when clicked
 function turnCard() {
+    // if we are waiting for a timeout and a card gets clicked, do nothing
     if (timeOut === 1) {
         return;
     }
-    let cardNum = this.getAttribute("id");
     // gets id of card clicked
     let clickedCard = memoryCards[parseInt(this.getAttribute("id"))].id;
     // if its the first card (out of two cards) clicked, then flip card and save which card was flipped
@@ -91,15 +96,18 @@ function turnCard() {
         }
         // if card is match, flip card and remove event listeners for both cards
         if (clickedCard === previousCard) {
+            // show correct match gif
             this.setAttribute("src", "./images/correct-right.gif");
             // https://tenor.com/view/correct-right-your-correct-correction-you-are-right-gif-25551295
             previousCardObj.setAttribute("src", "./images/correct-right.gif");
             timeOut = 1;
+            // show the cards for one second then flip them back to original numbers
             setTimeout(() => {
                 this.setAttribute("src", memoryCards[parseInt(this.getAttribute("id"))].img);
                 previousCardObj.setAttribute("src", memoryCards[parseInt(previousCardObj.getAttribute("id"))].img);
                 timeOut = 0;
             }, 1000);
+            // remove event listeners after match
             this.removeEventListener("click", turnCard);
             previousCardObj.removeEventListener("click", turnCard);
             // update number of matches
@@ -108,17 +116,20 @@ function turnCard() {
         }
         // if card is the not a match, show card for one second then flip both back to original numbers
         else {
+            // flip the cards back to original numbers
             this.setAttribute("src", memoryCards[parseInt(this.getAttribute("id"))].img);
             timeOut = 1;
+            // show the cards for one second then flip them back to original numbers
             setTimeout(() => {
-                let temp = 1 + parseInt(this.getAttribute("id"));
                 this.setAttribute("src", "./images/number_" + this.getAttribute("id") + ".png");
                 previousCardObj.setAttribute("src", "./images/number_" + previousCardObj.getAttribute("id") + ".png");
                 timeOut = 0;
             }, 1000);
         }
+        // reset turnedOver to 0
         turnedOver = 0;
     }
+    // check if game is won
     if (numberMatches === difficulty/2) {
         gameFin();
     }
@@ -126,6 +137,7 @@ function turnCard() {
 
 // display game win
 function gameFin() {
+    // show you win gif after 3 seconds
     setTimeout(() => {
         for (let i = 0; i < difficulty; i++) {
             imgEl[i].setAttribute("src", "./images/youwin.gif");
@@ -141,11 +153,13 @@ function Restart() {
     for (let i = 0; i < difficulty; i++) {
         imgEl[i].setAttribute("src", "./images/number_" + i + ".png");
     }
+    // reset the number of tries and matches
     numberMatches = 0;
     numberTries = 0;
     turnedOver = 0;
+    // run init to reset the game
     Init();
 }
 
-// initialize the game
+// initialize the game at startup
 Init();

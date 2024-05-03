@@ -1,3 +1,4 @@
+// Made by Ben Zarras 2015
 /***** ELEMENTS *****/
 var startButton = document.getElementById("start");
 var stopButton = document.getElementById("stop");
